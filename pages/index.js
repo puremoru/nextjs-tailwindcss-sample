@@ -1,65 +1,58 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import dayjs from 'dayjs'
 
-export default function Home() {
+export default function Home({ formattedNow, diffDays, livedDays }) {
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>伊勢1年カウントダウン</title>
+        <link rel="icon" href="/ibuki.png" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
+        <h1 className="text-4xl mb-12 text-gray-500">{formattedNow}</h1>
+        <p className="text-3xl">
+          🎉伊勢移住生活1年記念🎉
+        </p>
+        <p className="mt-4 text-2xl">
+          <span className="text-red-400 font-bold">2022年3月23日</span>まで
         </p>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+          <p className="text-4xl">あと<span className="text-9xl text-blue-700 font-bold">{diffDays}</span>日</p>
+        </div>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        <div className={styles.grid}>
+          <p>伊勢に来てから<span className="text-2xl">{livedDays}日</span>が経ちました。</p>
         </div>
       </main>
 
       <footer className={styles.footer}>
         <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="https://twitter.com/kaibuki0315"
           target="_blank"
-          rel="noopener noreferrer"
         >
           Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+          <img src="/ibuki.png" alt="Ibuki Icon" className={styles.logo} />
         </a>
       </footer>
     </div>
   )
+}
+
+export async function getStaticProps(context) {
+  const now = dayjs()
+  const formattedNow = now.format('YYYY年MM月DD日')
+
+  const startDay = dayjs('2021-03-23')
+  const goalDay = dayjs('2022-03-23')
+
+  const livedDays = now.diff(startDay, 'day')
+  const diffDays = goalDay.diff(now, 'day')
+
+  return {
+    props: { formattedNow, diffDays, livedDays },
+  }
 }
