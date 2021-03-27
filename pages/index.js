@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import dayjs from 'dayjs'
+import 'dayjs/locale/ja'
 
 function Home({ formattedNow, diffDays, livedDays }) {
 
@@ -43,7 +44,7 @@ function Home({ formattedNow, diffDays, livedDays }) {
 }
 
 Home.getInitialProps = async ({ req }) => {
-  const now = dayjs()
+  const now = dayjs().locale('ja')
   const formattedNow = now.format('YYYY年MM月DD日')
 
   const startDay = dayjs('2021-03-23')
