@@ -2,7 +2,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import dayjs from 'dayjs'
 
-export default function Home({ formattedNow, diffDays, livedDays }) {
+function Home({ formattedNow, diffDays, livedDays }) {
 
   return (
     <div className={styles.container}>
@@ -42,7 +42,7 @@ export default function Home({ formattedNow, diffDays, livedDays }) {
   )
 }
 
-export async function getStaticProps(context) {
+Home.getInitialProps = async ({ req }) => {
   const now = dayjs()
   const formattedNow = now.format('YYYY年MM月DD日')
 
@@ -53,6 +53,10 @@ export async function getStaticProps(context) {
   const diffDays = goalDay.diff(now, 'day')
 
   return {
-    props: { formattedNow, diffDays, livedDays },
+    formattedNow: formattedNow, 
+    diffDays: diffDays, 
+    livedDays: livedDays
   }
 }
+
+export default Home
