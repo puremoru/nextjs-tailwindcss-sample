@@ -53,8 +53,8 @@ Home.getInitialProps = async ({ req }) => {
   const now = dayjs.tz()
   const formattedNow = now.format('YYYY年MM月DD日')
 
-  const startDay = dayjs('2021-03-23')
-  const goalDay = dayjs('2022-03-23')
+  const startDay = dayjs.tz('2021-03-23')
+  const goalDay = dayjs.tz('2022-03-23')
 
   const livedDays = now.diff(startDay, 'day')
   const diffDays = goalDay.diff(now, 'day')
