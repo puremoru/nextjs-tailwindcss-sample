@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import dayjs from 'dayjs'
-import 'dayjs/locale/ja'
+import 'dayjs/locale/ja';
+dayjs.locale('ja')
 
 function Home({ formattedNow, diffDays, livedDays }) {
 
@@ -44,7 +45,12 @@ function Home({ formattedNow, diffDays, livedDays }) {
 }
 
 Home.getInitialProps = async ({ req }) => {
-  const now = dayjs().locale('ja')
+  const dayjs = require('dayjs') // v1.9.7
+  dayjs.extend(require('dayjs/plugin/timezone'))
+  dayjs.extend(require('dayjs/plugin/utc'))
+  dayjs.tz.setDefault('Asia/Tokyo')
+
+  const now = dayjs.tz()
   const formattedNow = now.format('YYYY年MM月DD日')
 
   const startDay = dayjs('2021-03-23')
