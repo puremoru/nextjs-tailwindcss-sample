@@ -4,7 +4,21 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/ja';
 dayjs.locale('ja')
 
-function Home({ formattedNow, diffDays, livedDays }) {
+function Home() {
+
+  const dayjs = require('dayjs') // v1.9.7
+  dayjs.extend(require('dayjs/plugin/timezone'))
+  dayjs.extend(require('dayjs/plugin/utc'))
+  dayjs.tz.setDefault('Asia/Tokyo')
+
+  const now = dayjs.tz()
+  const formattedNow = now.format('YYYY年MM月DD日')
+
+  const startDay = dayjs.tz('2021-03-23')
+  const goalDay = dayjs.tz('2022-03-23')
+
+  const livedDays = now.diff(startDay, 'day')
+  const diffDays = goalDay.diff(now, 'day')
 
   return (
     <div className={styles.container}>
@@ -44,26 +58,26 @@ function Home({ formattedNow, diffDays, livedDays }) {
   )
 }
 
-Home.getInitialProps = async ({ req }) => {
-  const dayjs = require('dayjs') // v1.9.7
-  dayjs.extend(require('dayjs/plugin/timezone'))
-  dayjs.extend(require('dayjs/plugin/utc'))
-  dayjs.tz.setDefault('Asia/Tokyo')
+// Home.getInitialProps = async ({ req }) => {
+//   const dayjs = require('dayjs') // v1.9.7
+//   dayjs.extend(require('dayjs/plugin/timezone'))
+//   dayjs.extend(require('dayjs/plugin/utc'))
+//   dayjs.tz.setDefault('Asia/Tokyo')
 
-  const now = dayjs.tz()
-  const formattedNow = now.format('YYYY年MM月DD日')
+//   const now = dayjs.tz()
+//   const formattedNow = now.format('YYYY年MM月DD日')
 
-  const startDay = dayjs.tz('2021-03-23')
-  const goalDay = dayjs.tz('2022-03-23')
+//   const startDay = dayjs.tz('2021-03-23')
+//   const goalDay = dayjs.tz('2022-03-23')
 
-  const livedDays = now.diff(startDay, 'day')
-  const diffDays = goalDay.diff(now, 'day')
+//   const livedDays = now.diff(startDay, 'day')
+//   const diffDays = goalDay.diff(now, 'day')
 
-  return {
-    formattedNow: formattedNow, 
-    diffDays: diffDays, 
-    livedDays: livedDays
-  }
-}
+//   return {
+//     formattedNow: formattedNow, 
+//     diffDays: diffDays, 
+//     livedDays: livedDays
+//   }
+// }
 
 export default Home
